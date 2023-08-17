@@ -1,0 +1,32 @@
+.movieRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 200px;
+  margin: 0;
+}
+
+.movieRow img {
+  margin-right: 15px;
+}
+
+.movieRow h2 {
+  font-size: 14px;
+}
+
+.movieRow ul {
+  display: flex;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+}
+
+.movieRow ul li {
+  font-size: 12px;
+  margin-right: 7px;
+}
+
+.movieRow__rating {
+  font-size: 12px;
+}
