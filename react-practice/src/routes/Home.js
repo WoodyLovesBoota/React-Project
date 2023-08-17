@@ -1,4 +1,4 @@
-import Movie from "./components/Movie";
+import Movie from "../components/Movie";
 
 import { useState, useEffect } from "react";
 
