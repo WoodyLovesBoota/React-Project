@@ -10,10 +10,12 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  height: 20vh;
+  height: 10vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  border-bottom: 0.5px solid lightgray;
 `;
 
 const Loader = styled.span`
@@ -23,7 +25,57 @@ const Loader = styled.span`
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
-  font-size: 48px;
+  font-size: 24px;
+`;
+
+const Main = styled.div`
+  width: 100%;
+  height: 20vh;
+  background-color: purple;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 0.5px solid lightgray;
+`;
+
+const Logo = styled.img`
+  height: 15vh;
+  width: 15vh;
+  margin-right: 20px;
+`;
+
+const Price = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 13vh;
+  span {
+    font-size: 16px;
+  }
+  p {
+    font-size: 48px;
+    font-weight: 800;
+    color: blue;
+  }
+`;
+
+const Description = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 20vh;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 0.5px solid lightgray;
+  font-size: 12px;
+`;
+
+const DescRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 interface ILocation {
@@ -94,28 +146,64 @@ const Coin = () => {
   const { coinId } = useParams();
   const location = useLocation();
   const { state } = location as ILocation;
-  const [info, setInfo] = useState<IInfoData>();
-  const [priceInfo, setPriceInfo] = useState<IPriceData>();
+  // const [info, setInfo] = useState<IInfoData>();
+  // const [priceInfo, setPriceInfo] = useState<IPriceData>();
+  const [info, setInfo] = useState("");
+  const [priceInfo, setPriceInfo] = useState("");
 
   const getCoinData = async () => {
-    const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
-    const price = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
-
-    setInfo(res.data);
-    setPriceInfo(price.data);
+    // const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
+    // const price = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
+    setInfo("res.data");
+    setPriceInfo("price.data");
     setLoading(false);
   };
 
   useEffect(() => {
     getCoinData();
-  }, []);
+  }, [coinId]);
 
   return (
     <Container>
       <Header>
         <Title>{state?.name || "Loading..."}</Title>
       </Header>
-      {loading ? <Loader>Loading...</Loader> : <h1>Coin: {coinId}</h1>}
+      {loading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Main>
+            {/* <Logo src={info?.logo}></Logo>
+            <Price>
+                <p>1 {info?.symbol} =</p>
+                <p>$ {priceInfo?.quotes.price}</p>
+            </Price> */}
+            <Logo src={""}></Logo>
+            <Price>
+              <span>{info}</span>
+              <p>{priceInfo}</p>
+            </Price>
+          </Main>
+          <Description>
+            <DescRow>
+              <span>Rank : </span>
+              <span></span>
+            </DescRow>
+            <DescRow>
+              <span>Total Supply : </span>
+              <span></span>
+            </DescRow>
+            <DescRow>
+              <span>Volumn (24H) : </span>
+              <span></span>
+            </DescRow>
+            <DescRow>
+              <span>Change (24H) : </span>
+              <span></span>
+            </DescRow>
+          </Description>
+        </>
+      )}
     </Container>
   );
 };
