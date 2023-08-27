@@ -188,14 +188,9 @@ const Coin = () => {
   //   getCoinData();
   // }, [coinId]);
 
-  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(["info", coinId], () =>
-    fetchCoinInfo(coinId)
-  );
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(["info", coinId], () => fetchCoinInfo(coinId));
 
-  const { isLoading: priceLoading, data: priceData } = useQuery<IPriceData>(
-    ["tickers", coinId],
-    () => fetchCoinPriceInfo(coinId)
-  );
+  const { isLoading: priceLoading, data: priceData } = useQuery<IPriceData>(["tickers", coinId], () => fetchCoinPriceInfo(coinId));
   const loading = infoLoading || priceLoading;
   return (
     <Container>
