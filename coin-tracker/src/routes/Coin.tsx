@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useParams, useLocation, useMatch } from "react-router-dom";
 import { styled } from "styled-components";
 import axios from "axios";
+import { useQuery } from "react-query";
+import { fetchCoinInfo, fetchCoinPriceInfo } from "../api";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -161,30 +163,40 @@ interface IPriceData {
 }
 
 const Coin = () => {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { coinId } = useParams();
   const location = useLocation();
   const { state } = location as ILocation;
-  const [info, setInfo] = useState<IInfoData>();
-  const [priceInfo, setPriceInfo] = useState<IPriceData>();
+  // const [info, setInfo] = useState<IInfoData>();
+  // const [priceInfo, setPriceInfo] = useState<IPriceData>();
+
   // const [info, setInfo] = useState("");
   // const [priceInfo, setPriceInfo] = useState("");
 
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
 
-  const getCoinData = async () => {
-    const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
-    const price = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
-    setInfo(res.data);
-    setPriceInfo(price.data);
-    setLoading(false);
-  };
+  // const getCoinData = async () => {
+  //   const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
+  //   const price = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
+  //   setInfo(res.data);
+  //   setPriceInfo(price.data);
+  //   setLoading(false);
+  // };
 
-  useEffect(() => {
-    getCoinData();
-  }, [coinId]);
+  // useEffect(() => {
+  //   getCoinData();
+  // }, [coinId]);
 
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(["info", coinId], () =>
+    fetchCoinInfo(coinId)
+  );
+
+  const { isLoading: priceLoading, data: priceData } = useQuery<IPriceData>(
+    ["tickers", coinId],
+    () => fetchCoinPriceInfo(coinId)
+  );
+  const loading = infoLoading || priceLoading;
   return (
     <Container>
       <Header>
@@ -195,37 +207,37 @@ const Coin = () => {
       ) : (
         <>
           <Main>
-            <Logo src={info?.logo}></Logo>
+            <Logo src={infoData?.logo}></Logo>
             <PriceDesc>
-              <span>1 {info?.symbol} =</span>
-              <p>$ {String(priceInfo?.quotes.USD.price).substring(0, 9)}</p>
+              <span>1 {infoData?.symbol} =</span>
+              <p>$ {String(priceData?.quotes.USD.price).substring(0, 9)}</p>
             </PriceDesc>
             {/* <Logo src={""}></Logo> */}
             {/* <PriceDesc>
-              <span>{info}</span>
-              <p>{priceInfo}</p>
+              <span>{infoData}</span>
+              <p>{priceData}</p>
             </PriceDesc> */}
           </Main>
           <Description>
             <DescRow>
               <span>Rank : </span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </DescRow>
             <DescRow>
               <span>Total Supply : </span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{priceData?.total_supply}</span>
             </DescRow>
             <DescRow>
               <span>Max Supply : </span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{priceData?.max_supply}</span>
             </DescRow>
             <DescRow>
               <span>Volumn (24H) : </span>
-              <span>{priceInfo?.quotes.USD.volume_24h}</span>
+              <span>{priceData?.quotes.USD.volume_24h}</span>
             </DescRow>
             <DescRow>
               <span>Change (24H) : </span>
-              <span>{priceInfo?.quotes.USD.percent_change_24h} %</span>
+              <span>{priceData?.quotes.USD.percent_change_24h} %</span>
             </DescRow>
           </Description>
 
