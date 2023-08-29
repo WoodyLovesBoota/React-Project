@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
 import { Link, Outlet, useParams, useLocation, useMatch } from "react-router-dom";
 import { styled } from "styled-components";
-import axios from "axios";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinPriceInfo } from "../api";
 import { Helmet } from "react-helmet";
 
 const Container = styled.div`
-  padding: 0 20px;
-  max-width: 480px;
+  padding: 0 1.5vw;
+  max-width: 50vw;
   margin: 0 auto;
 `;
 
 const Header = styled.header`
-  height: 10vh;
+  height: 7vw;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -27,24 +25,24 @@ const Loader = styled.span`
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
-  font-size: 24px;
+  font-size: 2.5vw;
   font-weight: 600;
 `;
 
 const Main = styled.div`
   width: 100%;
-  height: 20vh;
+  height: 13vw;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   background-color: #202020;
-  border-radius: 15px;
+  border-radius: 1.5vw;
 `;
 
 const Logo = styled.img`
   height: 15vh;
   width: 15vh;
-  margin: 0 20px;
+  margin: 0 1.5vw;
 `;
 
 const PriceDesc = styled.div`
@@ -52,14 +50,14 @@ const PriceDesc = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  height: 13vh;
+  height: 7vw;
   span {
-    font-size: 16px;
+    font-size: 1.3vw;
   }
   p {
-    font-size: 48px;
+    font-size: 4.5vw;
     font-weight: 800;
-    color: blue;
+    color: #5d5ddd;
   }
 `;
 
@@ -68,33 +66,33 @@ const Description = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  margin: 30px 0;
-  font-size: 14px;
+  margin: 3vw 0;
+  font-size: 1.4vw;
 `;
 
 const DescRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 5vh;
+  height: 3vw;
 `;
 
 const Tabs = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 2vw;
 `;
 
 const Tab = styled.div<{ isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 210px;
-  height: 25px;
+  width: 23vw;
+  height: 2.5vw;
   background-color: #202020;
-  border-radius: 10px;
-  font-size: 14px;
+  border-radius: 1vw;
+  font-size: 1.2vw;
   color: ${(props) => (props.isActive ? props.theme.accentColor : props.theme.textColor)};
 `;
 
@@ -164,30 +162,12 @@ interface IPriceData {
 }
 
 const Coin = () => {
-  // const [loading, setLoading] = useState(true);
   const { coinId } = useParams();
   const location = useLocation();
   const { state } = location as ILocation;
-  // const [info, setInfo] = useState<IInfoData>();
-  // const [priceInfo, setPriceInfo] = useState<IPriceData>();
-
-  // const [info, setInfo] = useState("");
-  // const [priceInfo, setPriceInfo] = useState("");
 
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
-
-  // const getCoinData = async () => {
-  //   const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
-  //   const price = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
-  //   setInfo(res.data);
-  //   setPriceInfo(price.data);
-  //   setLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   getCoinData();
-  // }, [coinId]);
 
   const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(["info", coinId], () =>
     fetchCoinInfo(coinId)
@@ -216,11 +196,6 @@ const Coin = () => {
               <span>1 {infoData?.symbol} =</span>
               <p>$ {String(priceData?.quotes.USD.price).substring(0, 9)}</p>
             </PriceDesc>
-            {/* <Logo src={""}></Logo> */}
-            {/* <PriceDesc>
-              <span>{infoData}</span>
-              <p>{priceData}</p>
-            </PriceDesc> */}
           </Main>
           <Description>
             <DescRow>

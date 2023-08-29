@@ -1,19 +1,17 @@
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useQueries, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
 
 const Container = styled.div`
-  padding: 0 20px;
-  max-width: 480px;
+  padding: 0 1.5vw;
+  max-width: 50vw;
   margin: 0 auto;
 `;
 
 const Header = styled.header`
-  height: 20vh;
+  height: 10vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,13 +27,16 @@ const CoinList = styled.ul``;
 const Coin = styled.li`
   background-color: white;
   color: ${(props) => props.theme.bgColor};
-  margin-bottom: 10px;
-  border-radius: 15px;
+  margin-bottom: 1vw;
+  border-radius: 1.2vw;
   a {
-    padding: 20px;
+    padding: 1.6vw;
     transition: color 0.2s ease-in-out;
     display: flex;
     align-items: center;
+    span {
+      font-size: 1.4vw;
+    }
   }
 
   &:hover {
@@ -47,13 +48,14 @@ const Coin = styled.li`
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
-  font-size: 48px;
+  font-size: 4vw;
+  font-weight: 600;
 `;
 
 const Img = styled.img`
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
+  width: 3vw;
+  height: 3vw;
+  margin-right: 1vw;
 `;
 
 interface ICoin {
@@ -67,18 +69,6 @@ interface ICoin {
 }
 
 const Coins = () => {
-  // const [loading, setLoading] = useState(true);
-  // const [coins, setCoins] = useState<ICoin[]>([]);
-  // const getCoins = async () => {
-  //   const res = await axios("https://api.coinpaprika.com/v1/coins");
-  //   setCoins(res.data.slice(0, 100));
-  //   setLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   getCoins();
-  // }, []);
-
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -99,7 +89,7 @@ const Coins = () => {
                 <Img
                   src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                 ></Img>
-                {coin.name} &rarr;
+                <span>{coin.name} &rarr;</span>
               </Link>
             </Coin>
           ))}

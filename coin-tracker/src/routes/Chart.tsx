@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 
@@ -33,8 +33,6 @@ const Chart = () => {
           series={[{ name: "price", data: data?.map((price) => parseFloat(price.close)) ?? [] }]}
           options={{
             chart: {
-              height: 300,
-              width: 500,
               toolbar: {
                 show: false,
               },
@@ -51,8 +49,13 @@ const Chart = () => {
               type: "datetime",
               categories: data?.map((price) => price.time_close),
             },
-            fill: { type: "gradient", gradient: { gradientToColors: ["blue"] } },
-            colors: ["purple"],
+            fill: {
+              type: "gradient",
+              gradient: {
+                gradientToColors: ["#D5FFE4", "#8BE8E5", "#A084E8"],
+              },
+            },
+            colors: ["#6F61C0"],
             tooltip: { y: { formatter: (value) => `${value.toFixed(3)}` } },
           }}
         />
