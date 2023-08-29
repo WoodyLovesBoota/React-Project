@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinPriceInfo } from "../api";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -188,12 +189,20 @@ const Coin = () => {
   //   getCoinData();
   // }, [coinId]);
 
-  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(["info", coinId], () => fetchCoinInfo(coinId));
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(["info", coinId], () =>
+    fetchCoinInfo(coinId)
+  );
 
-  const { isLoading: priceLoading, data: priceData } = useQuery<IPriceData>(["tickers", coinId], () => fetchCoinPriceInfo(coinId));
+  const { isLoading: priceLoading, data: priceData } = useQuery<IPriceData>(
+    ["tickers", coinId],
+    () => fetchCoinPriceInfo(coinId)
+  );
   const loading = infoLoading || priceLoading;
   return (
     <Container>
+      <Helmet>
+        <title>{state?.name || "Loading..."}</title>
+      </Helmet>
       <Header>
         <Title>{state?.name || "Loading..."}</Title>
       </Header>
@@ -245,7 +254,7 @@ const Coin = () => {
             </Link>
           </Tabs>
 
-          <Outlet />
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>
