@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Container = styled.div`
   padding: 0 1.5vw;
@@ -25,24 +27,44 @@ const Loader = styled.span`
 const CoinList = styled.ul``;
 
 const Coin = styled.li`
+  height: 6vw;
+  transition: height 0.3s ease-in-out;
   background-color: white;
   color: ${(props) => props.theme.bgColor};
   margin-bottom: 1vw;
   border-radius: 1.2vw;
   a {
+    height: 100%;
     padding: 1.6vw;
-    transition: color 0.2s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
     display: flex;
     align-items: center;
-    span {
-      font-size: 1.4vw;
-    }
+    border-radius: 1.2vw;
   }
 
   &:hover {
+    height: 7vw;
     a {
-      color: ${(props) => props.theme.accentColor};
+      background-color: #d0bfff;
+      border: 2px solid transparent;
+      span {
+        font-size: 1.6vw;
+      }
+      img {
+        width: 3.5vw;
+        height: 3.5vw;
+      }
     }
+  }
+`;
+
+const CoinName = styled.div`
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  span {
+    transition: font-size 0.3s ease-in-out;
+    font-size: 1.4vw;
   }
 `;
 
@@ -56,6 +78,7 @@ const Img = styled.img`
   width: 3vw;
   height: 3vw;
   margin-right: 1vw;
+  transition: all 0.3s ease-in-out;
 `;
 
 interface ICoin {
@@ -74,22 +97,27 @@ const Coins = () => {
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>DashBoard</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
+        <Title>DashBoard</Title>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <CoinList>
-          {data?.slice(0, 50).map((coin) => (
+          {data?.slice(0, 30).map((coin) => (
             <Coin key={coin.id}>
               <Link to={`/${coin.id}`} state={coin}>
                 <Img
                   src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                 ></Img>
-                <span>{coin.name} &rarr;</span>
+                <CoinName>
+                  <span>{coin.name}</span>
+                  <span>
+                    <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
+                  </span>
+                </CoinName>
               </Link>
             </Coin>
           ))}

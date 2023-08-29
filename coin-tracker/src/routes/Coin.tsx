@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinPriceInfo } from "../api";
 import { Helmet } from "react-helmet";
+import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Container = styled.div`
   padding: 0 1.5vw;
@@ -12,10 +14,14 @@ const Container = styled.div`
 
 const Header = styled.header`
   height: 7vw;
+  padding-right: 0.8vw;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+  a {
+    font-size: 2vw;
+  }
 `;
 
 const Loader = styled.span`
@@ -185,6 +191,9 @@ const Coin = () => {
       </Helmet>
       <Header>
         <Title>{state?.name || "Loading..."}</Title>
+        <Link to={"/"}>
+          <FontAwesomeIcon icon={faArrowLeftLong}></FontAwesomeIcon>
+        </Link>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
