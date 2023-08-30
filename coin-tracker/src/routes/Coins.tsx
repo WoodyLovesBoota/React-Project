@@ -5,6 +5,7 @@ import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 const Container = styled.div`
   padding: 0 1.5vw;
@@ -30,7 +31,7 @@ const Coin = styled.li`
   height: 6vw;
   transition: height 0.3s ease-in-out;
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 1vw;
   border-radius: 1.2vw;
   a {
@@ -91,7 +92,11 @@ interface ICoin {
   type: string;
 }
 
-const Coins = () => {
+interface ICoinsProps {
+  toggleDark: () => void;
+}
+
+const Coins = ({ toggleDark }: ICoinsProps) => {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -100,6 +105,8 @@ const Coins = () => {
         <title>DashBoard</title>
       </Helmet>
       <Header>
+        <button onClick={toggleDark}>Toggle Mode</button>
+
         <Title>DashBoard</Title>
       </Header>
       {isLoading ? (
