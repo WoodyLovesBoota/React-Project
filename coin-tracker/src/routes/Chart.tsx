@@ -33,6 +33,8 @@ const Chart = () => {
           series={[{ name: "price", data: data?.map((price) => parseFloat(price.close)) ?? [] }]}
           options={{
             chart: {
+              height: 300,
+              width: 400,
               toolbar: {
                 show: false,
               },
@@ -40,12 +42,17 @@ const Chart = () => {
             },
             grid: { show: false },
             theme: { mode: "dark" },
+            title: {
+              text: "Line Chart",
+              align: "left",
+            },
             stroke: { curve: "smooth" },
-            yaxis: { show: false },
+            yaxis: {
+              tooltip: {
+                enabled: true,
+              },
+            },
             xaxis: {
-              labels: { show: false },
-              axisTicks: { show: false },
-              axisBorder: { show: false },
               type: "datetime",
               categories: data?.map((price) => price.time_close),
             },
