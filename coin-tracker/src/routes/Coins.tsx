@@ -6,6 +6,8 @@ import { Helmet } from "react-helmet";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0 1.5vw;
@@ -96,7 +98,8 @@ interface ICoinsProps {
   toggleDark: () => void;
 }
 
-const Coins = ({ toggleDark }: ICoinsProps) => {
+const Coins = () => {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -105,7 +108,13 @@ const Coins = ({ toggleDark }: ICoinsProps) => {
         <title>DashBoard</title>
       </Helmet>
       <Header>
-        <button onClick={toggleDark}>Toggle Mode</button>
+        <button
+          onClick={() => {
+            setDarkAtom((current) => !current);
+          }}
+        >
+          Toggle Mode
+        </button>
 
         <Title>DashBoard</Title>
       </Header>

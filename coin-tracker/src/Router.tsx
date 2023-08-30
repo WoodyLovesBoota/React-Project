@@ -8,7 +8,7 @@ interface IRouterProps {
   toggleDark: () => void;
 }
 
-const Router = ({ toggleDark }: IRouterProps) => {
+const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -16,7 +16,7 @@ const Router = ({ toggleDark }: IRouterProps) => {
           <Route path="chart" element={<Chart />}></Route>
           <Route path="price" element={<Price />}></Route>
         </Route>
-        <Route path="/" element={<Coins toggleDark={toggleDark} />}></Route>
+        <Route path="/" element={<Coins />}></Route>
       </Routes>
     </BrowserRouter>
   );
