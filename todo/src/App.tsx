@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import TodoList from "./ToDo";
+import TodoList from "./components/TodoList";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
