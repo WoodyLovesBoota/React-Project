@@ -16,18 +16,30 @@ const Input = styled.input.attrs({
   text-transform: uppercase;
   transition: background-color 1s ease-in-out;
   caret-color: transparent;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.bgcolor};
   &:focus {
     outline: none;
   }
 `;
 
 interface IColor {
-  bgColor: string;
+  bgcolor: string;
 }
 
-const Letter = ({ bgColor }: IColor) => {
-  return <Input bgColor={bgColor}></Input>;
+const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // console.log(event.currentTarget.value);
+};
+
+const moveCursor = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Backspace") {
+    (e.currentTarget.previousSibling as HTMLElement)?.focus();
+  } else if (e.currentTarget.value.length === 1) {
+    (e.currentTarget.nextSibling as HTMLElement)?.focus();
+  }
+};
+
+const Letter = ({ bgcolor }: IColor) => {
+  return <Input bgcolor={bgcolor} onKeyUp={moveCursor} onChange={onChange}></Input>;
 };
 
 export default Letter;
