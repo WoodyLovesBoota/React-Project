@@ -26,10 +26,6 @@ interface IColor {
   bgcolor: string;
 }
 
-const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  // console.log(event.currentTarget.value);
-};
-
 const moveCursor = (e: React.KeyboardEvent<HTMLInputElement>) => {
   if (e.key === "Backspace") {
     (e.currentTarget.previousSibling as HTMLElement)?.focus();
@@ -39,7 +35,7 @@ const moveCursor = (e: React.KeyboardEvent<HTMLInputElement>) => {
 };
 
 const Letter = ({ bgcolor }: IColor) => {
-  return <Input bgcolor={bgcolor} onKeyUp={moveCursor} onChange={onChange}></Input>;
+  return <Input bgcolor={bgcolor} onKeyUp={moveCursor}></Input>;
 };
 
 export default Letter;

@@ -1,11 +1,12 @@
-import { answerState } from "../atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { answerState, STATUS, isFinishState } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import Letter from "./Letter";
 import { useState } from "react";
 
 const Word = () => {
   const answer = useRecoilValue(answerState);
   const [colors, setColors] = useState(["", "", "", "", ""]);
+  const setIsFinished = useSetRecoilState(isFinishState);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     checkIsAnswer(event);
@@ -28,6 +29,12 @@ const Word = () => {
       }
     }
     setColors(checkArr);
+    green === 5 && setIsFinished(STATUS.WIN);
+    if (event.currentTarget.nextSibling !== null)
+      (event.currentTarget.nextSibling.firstChild as HTMLElement)?.focus();
+    else {
+      green !== 5 && setIsFinished(STATUS.LOSE);
+    }
   };
 
   return (

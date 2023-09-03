@@ -1,10 +1,11 @@
 import { Reset } from "styled-reset";
 import { styled } from "styled-components";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Word from "./components/Word";
-import { answerState } from "./atoms";
-import { useRecoilState } from "recoil";
+import { answerState, isFinishState } from "./atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import ResultPage from "./ResultPage";
 
 const Container = styled.div`
   max-width: 900px;
@@ -17,6 +18,7 @@ const Container = styled.div`
 
 function App() {
   const [answer, setAnswer] = useRecoilState(answerState);
+  const isFinished = useRecoilValue(isFinishState);
 
   const getWord = async () => {
     const { data } = await axios("https://random-word-api.herokuapp.com/word?length=5");
@@ -33,11 +35,11 @@ function App() {
     <>
       <Reset />
       <Container>
-        <h1>{answer}</h1>
         {words.map((element) => {
           return <Word key={element}></Word>;
         })}
       </Container>
+      <ResultPage result={isFinished} />
     </>
   );
 }

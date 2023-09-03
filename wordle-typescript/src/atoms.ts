@@ -1,11 +1,21 @@
 import { atom } from "recoil";
 
+export enum STATUS {
+  "NOT_FINISHED",
+  "WIN",
+  "LOSE",
+}
+
+export interface IResult {
+  result: STATUS;
+}
+
 export const answerState = atom({
   key: "answer",
   default: "",
 });
 
-export const isFinishState = atom({
+export const isFinishState = atom<STATUS>({
   key: "isFinish",
-  // default: ""
+  default: STATUS.NOT_FINISHED,
 });
