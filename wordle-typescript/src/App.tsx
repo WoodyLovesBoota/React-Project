@@ -40,6 +40,7 @@ function App() {
           return <Word key={element}></Word>;
         })}
         <Keyboard />
+        {isFinished}
       </Container>
       <ResultPage result={isFinished} />
     </>

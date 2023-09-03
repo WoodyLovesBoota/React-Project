@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Container = styled.div<IResult>`
   background-color: rgba(0, 0, 0, 0.9);
-  top: ${(props) => (props.result === STATUS.NOT_FINISHED ? "-100vh" : 0)};
+  top: ${(props) => (props.result === STATUS.NOT_FINISHED ? "-200vh" : 0)};
   width: 100vw;
   height: 100vh;
   position: fixed;
-  transition: top 1s ease-in-out;
+  transition: top 1.5s ease-in-out;
   color: white;
   display: flex;
   flex-direction: column;

@@ -8,6 +8,7 @@ const Word = () => {
   const [colors, setColors] = useState(["", "", "", "", ""]);
   const setIsFinished = useSetRecoilState(isFinishState);
   const [history, setHistory] = useRecoilState(historyState);
+  let count = 0;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     checkIsAnswer(event);
@@ -33,11 +34,10 @@ const Word = () => {
     }
     setColors(checkArr);
     green === 5 && setIsFinished(STATUS.WIN);
-    if (event.currentTarget.nextSibling !== null)
-      (event.currentTarget.nextSibling.firstChild as HTMLElement)?.focus();
-    else {
-      green !== 5 && setIsFinished(STATUS.LOSE);
-    }
+    (event.currentTarget.nextSibling?.firstChild as HTMLElement)?.focus();
+    event.currentTarget.nextSibling?.nodeName === "DIV" &&
+      green !== 5 &&
+      setIsFinished(STATUS.LOSE);
   };
 
   return (
