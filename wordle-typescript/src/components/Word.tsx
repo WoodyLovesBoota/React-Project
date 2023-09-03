@@ -1,5 +1,5 @@
 import { answerState, STATUS, isFinishState, historyState } from "../atoms";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import Letter from "./Letter";
 import { useState } from "react";
 
@@ -7,8 +7,7 @@ const Word = () => {
   const answer = useRecoilValue(answerState);
   const [colors, setColors] = useState(["", "", "", "", ""]);
   const setIsFinished = useSetRecoilState(isFinishState);
-  const [history, setHistory] = useRecoilState(historyState);
-  let count = 0;
+  const setHistory = useSetRecoilState(historyState);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     checkIsAnswer(event);
