@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import Word from "./components/Word";
 import { answerState, isFinishState } from "./atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import ResultPage from "./ResultPage";
 
 const Container = styled.div`
@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [answer, setAnswer] = useRecoilState(answerState);
+  const setAnswer = useSetRecoilState(answerState);
   const isFinished = useRecoilValue(isFinishState);
 
   const getWord = async () => {
