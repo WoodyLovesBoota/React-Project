@@ -4,8 +4,8 @@ const Input = styled.input.attrs({
   maxLength: 1,
   required: true,
 })<IColor>`
-  width: 6vw;
-  height: 6vw;
+  width: 5vw;
+  height: 5vw;
   border-radius: 1vw;
   margin: 0.4vw 0.2vw;
   border: none;

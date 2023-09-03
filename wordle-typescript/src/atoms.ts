@@ -19,3 +19,8 @@ export const isFinishState = atom<STATUS>({
   key: "isFinish",
   default: STATUS.NOT_FINISHED,
 });
+
+export const historyState = atom({
+  key: "history",
+  default: [""],
+});

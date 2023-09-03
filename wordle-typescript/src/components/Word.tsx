@@ -1,5 +1,5 @@
-import { answerState, STATUS, isFinishState } from "../atoms";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { answerState, STATUS, isFinishState, historyState } from "../atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Letter from "./Letter";
 import { useState } from "react";
 
@@ -7,6 +7,7 @@ const Word = () => {
   const answer = useRecoilValue(answerState);
   const [colors, setColors] = useState(["", "", "", "", ""]);
   const setIsFinished = useSetRecoilState(isFinishState);
+  const [history, setHistory] = useRecoilState(historyState);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     checkIsAnswer(event);
@@ -18,7 +19,9 @@ const Word = () => {
     let res = [];
     let green = 0;
     for (let i = 0; i < 5; i++) {
-      res.push((event.currentTarget[i] as HTMLInputElement).value);
+      const currentValue = (event.currentTarget[i] as HTMLInputElement).value;
+      res.push(currentValue);
+      setHistory((prev) => [...prev, currentValue]);
       if (res[i] === answer[i]) {
         green++;
         checkArr[i] = "G";

@@ -6,6 +6,7 @@ import Word from "./components/Word";
 import { answerState, isFinishState } from "./atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import ResultPage from "./ResultPage";
+import Keyboard from "./components/Keyboard";
 
 const Container = styled.div`
   max-width: 900px;
@@ -38,6 +39,7 @@ function App() {
         {words.map((element) => {
           return <Word key={element}></Word>;
         })}
+        <Keyboard />
       </Container>
       <ResultPage result={isFinished} />
     </>
