@@ -3,7 +3,9 @@ import { styled } from "styled-components";
 import React from "react";
 
 const Card = styled.div<{ isDragging: boolean }>`
-  background-color: ${(props) => (props.isDragging ? "#00cec9" : props.theme.cardColor)};
+  background-color: ${(props) => (props.isDragging ? "#aff0ef" : props.theme.cardColor)};
+  font-weight: 550;
+  font-size: 1.2vw;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 5px;

@@ -6,11 +6,11 @@ import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.div`
-  width: 300px;
-  padding-top: 10px;
+  width: 20vw;
+  padding-top: 1vw;
   background-color: ${(props) => props.theme.boardColor};
-  border-radius: 5px;
-  min-height: 300px;
+  border-radius: 1vw;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
 `;
@@ -18,13 +18,13 @@ const Wrapper = styled.div`
 const Title = styled.h2`
   text-align: center;
   font-weight: 600;
-  margin-bottom: 10px;
-  font-size: 18px;
+  margin-bottom: 1vw;
+  font-size: 1.5vw;
 `;
 
 const Area = styled.div<IDragging>`
   background-color: ${(props) =>
-    props.isDraggingOver ? "#fdcb6e" : props.isDraggingFromThis ? "transparent" : "transparent"};
+    props.isDraggingOver ? "#fad388" : props.isDraggingFromThis ? "transparent" : "transparent"};
   flex-grow: 1;
   transition: background-color 0.5s ease-in-out;
   padding: 20px;
@@ -32,8 +32,22 @@ const Area = styled.div<IDragging>`
 
 const Form = styled.form`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   input {
-    width: 100%;
+    width: 95%;
+    border: none;
+    border-bottom: 2px solid black;
+    background-color: transparent;
+    font-size: 1.2vw;
+    margin-top: 1vw;
+    padding: 3px 0;
+    &:focus {
+      outline: none;
+      border-color: #00b894;
+    }
+    transition: border-color 0.3s ease-in-out;
   }
 `;
 
@@ -64,6 +78,7 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
     });
     setValue("toDo", "");
   };
+
   return (
     <Wrapper>
       <Title>{boardId}</Title>

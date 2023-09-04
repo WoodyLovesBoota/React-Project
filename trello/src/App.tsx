@@ -2,31 +2,28 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautif
 import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { toDoState } from "./atoms";
-import DragabbleCard from "./components/DragabbleCard";
 import Board from "./components/Board";
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 680px;
+  max-width: 80vw;
   width: 100%;
-  margin: 0 auto;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
   height: 100vh;
 `;
 
 const Boards = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 100%;
-  gap: 10px;
+  gap: 2vw;
 `;
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-
   const onDragEnd = (info: DropResult) => {
-    const { destination, source, draggableId } = info;
+    const { destination, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       setToDos((oldBoards) => {
