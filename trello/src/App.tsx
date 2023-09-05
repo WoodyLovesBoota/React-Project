@@ -3,25 +3,34 @@ import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
+import { useForm } from "react-hook-form";
+import { type } from "os";
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 80vw;
-  width: 100%;
+  width: 80vw;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
-  height: 100vh;
+  margin: 10vh auto;
 `;
 
 const Boards = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2vw;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-gap: 1rem;
+  width: 80vw;
 `;
+
+const Form = styled.form``;
+
+interface IBoardForm {
+  board: string;
+}
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
+  const { register, setValue, handleSubmit } = useForm<IBoardForm>();
+
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
     if (!destination) return;
@@ -52,16 +61,32 @@ function App() {
     }
   };
 
+  const onValid = ({ board }: IBoardForm) => {
+    setToDos((current) => {
+      return { ...current, [board]: [] };
+    });
+    setValue("board", "");
+  };
+
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map((boardId) => (
-            <Board toDos={toDos[boardId]} boardId={boardId} key={boardId} />
-          ))}
-        </Boards>
-      </Wrapper>
-    </DragDropContext>
+    <>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <input
+          {...register("board", { required: true })}
+          type="text"
+          placeholder="Add Board"
+        ></input>
+      </Form>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Wrapper>
+          <Boards>
+            {Object.keys(toDos).map((boardId) => (
+              <Board toDos={toDos[boardId]} boardId={boardId} key={boardId} />
+            ))}
+          </Boards>
+        </Wrapper>
+      </DragDropContext>
+    </>
   );
 }
 

@@ -6,11 +6,11 @@ import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.div`
-  width: 20vw;
+  /* width: 15vw; */
   padding-top: 1vw;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 1vw;
-  min-height: 60vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
 `;
