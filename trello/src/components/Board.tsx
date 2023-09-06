@@ -1,9 +1,11 @@
 import { Droppable } from "react-beautiful-dnd";
 import DragabbleCard from "./DragabbleCard";
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
 import { useForm } from "react-hook-form";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 const Wrapper = styled.div<IWrapper>`
   background-color: ${(props) => props.theme.boardColor};
@@ -14,26 +16,35 @@ const Wrapper = styled.div<IWrapper>`
   padding: 23px 15px 15px 15px;
   display: flex;
   flex-direction: column;
-  background-color: ${(props) => props.boardId === "TrashLILI" && "transparent"};
+
   box-shadow: 0 5px 5px 3px rgba(0, 0, 0, 0.2);
-  * :not(Area) {
-    display: ${(props) => props.boardId === "TrashLILI" && "none"};
+
+  &:hover {
+    width: ${(props) => props.boardId === "TrashLILI" && "200px"};
+    height: ${(props) => props.boardId === "TrashLILI" && "220px"};
+    Span {
+      font-size: 80px;
+      color: #f0f08c;
+    }
+    transition: all 0.5s ease-in-out;
   }
+
   Form {
+    display: ${(props) => props.boardId === "TrashLILI" && "none"};
     border: ${(props) => props.boardId === "TrashLILI" && "none"};
   }
 
   ${(props) =>
     props.boardId === "TrashLILI" && {
       width: "140px",
-      minHeight: "160px",
+      height: "160px",
       position: "fixed",
       top: "-40px",
-      right: 0,
+      right: "-10px",
       boxShadow: "none",
       padding: 0,
       margin: 0,
-      borderBottomLeftRadius: "140px",
+      borderBottomLeftRadius: "160px",
       backgroundColor: props.theme.accentColor,
     }}
 `;
@@ -41,13 +52,23 @@ const Wrapper = styled.div<IWrapper>`
 const Title = styled.h2`
   text-align: center;
   font-weight: 800;
-  font-size: 21px;
+  font-size: 18px;
 `;
 
 const Area = styled.div<IDragging>`
-  background-color: ${(props) => props.isDraggingOver && "#fad388"};
-  transition: background-color 0.5s ease-in-out;
-  min-height: 160px;
+  background-color: transparent;
+  flex-grow: 1;
+`;
+
+const Span = styled.span<IWrapper>`
+  display: block;
+  font-size: 50px;
+  color: white;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  transition: all 0.5s ease-in-out;
+  display: ${(props) => props.boardId !== "TrashLILI" && "none"};
 `;
 
 const Form = styled.form`
@@ -143,7 +164,7 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
   return (
     <Wrapper boardId={boardId}>
       <Header>
-        <Title>{boardId}</Title>
+        <Title>{boardId === "TrashLILI" ? "" : boardId}</Title>
         <Button onClick={deleteBoard}>X</Button>
       </Header>
       <Form onSubmit={handleSubmit(onValid)}>
@@ -151,6 +172,7 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
           {...register("toDo", { required: true })}
           type="text"
           placeholder={"Add a new task"}
+          autoComplete="off"
         />
         <SubmitButton>+</SubmitButton>
       </Form>
@@ -169,6 +191,11 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
           </Area>
         )}
       </Droppable>
+      {boardId === "TrashLILI" && (
+        <Span boardId={boardId}>
+          <FontAwesomeIcon icon={faTrashCan}></FontAwesomeIcon>
+        </Span>
+      )}
     </Wrapper>
   );
 };

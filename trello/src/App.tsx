@@ -11,18 +11,17 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
   align-items: center;
 `;
 
 const Boards = styled.div`
   display: flex;
-  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const Form = styled.form`
   width: 18.9375rem;
-  height: 3.25rem;
+  height: 52px;
   border-radius: 0.75rem;
   background-color: white;
   box-shadow: 0 5px 5px 3px rgba(0, 0, 0, 0.2);
@@ -114,6 +113,7 @@ function App() {
           {...register("board", { required: true })}
           type="text"
           placeholder="Add a new board"
+          autoComplete="off"
         />
         <Button>+</Button>
       </Form>
