@@ -6,56 +6,71 @@ import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.div<IWrapper>`
-  padding-top: 1vw;
   background-color: ${(props) => props.theme.boardColor};
-  border-radius: 1vw;
-  min-height: 70vh;
+  border-radius: 12px;
+  width: 303px;
+  min-height: 180px;
+  margin-right: 20px;
+  padding: 23px 15px 15px 15px;
   display: flex;
   flex-direction: column;
-  position: ${(props) => props.boardId === "TrashLILI" && "fixed"};
-  top: ${(props) => props.boardId === "TrashLILI" && 0};
-  right: ${(props) => props.boardId === "TrashLILI" && 0};
   background-color: ${(props) => props.boardId === "TrashLILI" && "transparent"};
+  box-shadow: 0 5px 5px 3px rgba(0, 0, 0, 0.2);
   * :not(Area) {
     display: ${(props) => props.boardId === "TrashLILI" && "none"};
   }
+  Form {
+    border: ${(props) => props.boardId === "TrashLILI" && "none"};
+  }
 
-  width: ${(props) => props.boardId === "TrashLILI" && "15vw"};
-  min-height: ${(props) => props.boardId === "TrashLILI" && "10vw"};
+  ${(props) =>
+    props.boardId === "TrashLILI" && {
+      width: "140px",
+      minHeight: "160px",
+      position: "fixed",
+      top: "-40px",
+      right: 0,
+      boxShadow: "none",
+      padding: 0,
+      margin: 0,
+      borderBottomLeftRadius: "140px",
+      backgroundColor: props.theme.accentColor,
+    }}
 `;
 
 const Title = styled.h2`
   text-align: center;
-  font-weight: 600;
-  font-size: 1.5vw;
+  font-weight: 800;
+  font-size: 21px;
 `;
 
 const Area = styled.div<IDragging>`
-  background-color: ${(props) =>
-    props.isDraggingOver ? "#fad388" : props.isDraggingFromThis ? "transparent" : "transparent"};
-  flex-grow: 1;
+  background-color: ${(props) => props.isDraggingOver && "#fad388"};
   transition: background-color 0.5s ease-in-out;
-  padding: 20px;
+  min-height: 160px;
 `;
 
 const Form = styled.form`
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border: 2.5px solid ${(props) => props.theme.accentColor};
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  padding: 8px;
   input {
-    width: 90%;
+    width: 100%;
     border: none;
-    border-bottom: 2px solid black;
     background-color: transparent;
-    font-size: 1.2vw;
-    margin-top: 1vw;
-    padding: 3px 0;
+    font-size: 14px;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
     &:focus {
       outline: none;
-      border-color: #00b894;
     }
-    transition: border-color 0.3s ease-in-out;
   }
 `;
 
@@ -63,11 +78,27 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2vw;
-  margin-top: 0.5vw;
+  margin-bottom: 20px;
 `;
 
-const Button = styled.button``;
+const Button = styled.button`
+  border: none;
+  background-color: transparent;
+  color: lightgray;
+`;
+
+const SubmitButton = styled.button.attrs({ type: "submit" })`
+  font-size: 36px;
+  font-weight: 530;
+  border: none;
+  width: 14px;
+  height: 14px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => props.theme.accentColor};
+`;
 
 interface IBoardProps {
   toDos: ITodo[];
@@ -119,8 +150,9 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
         <input
           {...register("toDo", { required: true })}
           type="text"
-          placeholder={`Add task on ${boardId}`}
+          placeholder={"Add a new task"}
         />
+        <SubmitButton>+</SubmitButton>
       </Form>
       <Droppable droppableId={boardId}>
         {(provided, snapshot) => (

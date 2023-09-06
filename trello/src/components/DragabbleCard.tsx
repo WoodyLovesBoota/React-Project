@@ -5,11 +5,10 @@ import React from "react";
 const Card = styled.div<{ isDragging: boolean }>`
   background-color: ${(props) => (props.isDragging ? "#aff0ef" : props.theme.cardColor)};
   font-weight: 550;
-  font-size: 1.2vw;
-  border-radius: 5px;
+  font-size: 14px;
   padding: 10px;
-  margin-bottom: 5px;
-  box-shadow: ${(props) => (props.isDragging ? "0px 4px 5px rgba(0,0,0,0.5)" : "none")};
+  margin-bottom: 11px;
+  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.2);
 `;
 
 interface IDragableCardProps {
