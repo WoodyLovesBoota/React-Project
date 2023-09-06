@@ -4,21 +4,23 @@ import { styled } from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
 import { useForm } from "react-hook-form";
-import { type } from "os";
+
+const Container = styled.div`
+  margin: 5vw;
+`;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 80vw;
   justify-content: center;
   align-items: center;
   margin: 10vh auto;
 `;
 
 const Boards = styled.div`
+  width: 90vw;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   grid-gap: 1rem;
-  width: 80vw;
 `;
 
 const Form = styled.form``;
@@ -51,7 +53,8 @@ function App() {
         const targetBoard = [...oldBoards[destination.droppableId]];
         const taskObj = copyBoard[source.index];
         copyBoard.splice(source.index, 1);
-        targetBoard.splice(destination?.index, 0, taskObj);
+        destination.droppableId !== "TrashLILI" &&
+          targetBoard.splice(destination?.index, 0, taskObj);
         return {
           ...oldBoards,
           [source.droppableId]: copyBoard,
@@ -69,7 +72,7 @@ function App() {
   };
 
   return (
-    <>
+    <Container>
       <Form onSubmit={handleSubmit(onValid)}>
         <input
           {...register("board", { required: true })}
@@ -86,7 +89,7 @@ function App() {
           </Boards>
         </Wrapper>
       </DragDropContext>
-    </>
+    </Container>
   );
 }
 

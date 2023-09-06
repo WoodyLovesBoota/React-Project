@@ -5,20 +5,28 @@ import { useForm } from "react-hook-form";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 
-const Wrapper = styled.div`
-  /* width: 15vw; */
+const Wrapper = styled.div<IWrapper>`
   padding-top: 1vw;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 1vw;
-  min-height: 50vh;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
+  position: ${(props) => props.boardId === "TrashLILI" && "fixed"};
+  top: ${(props) => props.boardId === "TrashLILI" && 0};
+  right: ${(props) => props.boardId === "TrashLILI" && 0};
+  background-color: ${(props) => props.boardId === "TrashLILI" && "transparent"};
+  * :not(Area) {
+    display: ${(props) => props.boardId === "TrashLILI" && "none"};
+  }
+
+  width: ${(props) => props.boardId === "TrashLILI" && "15vw"};
+  min-height: ${(props) => props.boardId === "TrashLILI" && "10vw"};
 `;
 
 const Title = styled.h2`
   text-align: center;
   font-weight: 600;
-  margin-bottom: 1vw;
   font-size: 1.5vw;
 `;
 
@@ -36,7 +44,7 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   input {
-    width: 95%;
+    width: 90%;
     border: none;
     border-bottom: 2px solid black;
     background-color: transparent;
@@ -51,6 +59,16 @@ const Form = styled.form`
   }
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2vw;
+  margin-top: 0.5vw;
+`;
+
+const Button = styled.button``;
+
 interface IBoardProps {
   toDos: ITodo[];
   boardId: string;
@@ -63,6 +81,10 @@ interface IDragging {
 
 interface IForm {
   toDo: string;
+}
+
+interface IWrapper {
+  boardId: string;
 }
 
 const Board = ({ toDos, boardId }: IBoardProps) => {
@@ -79,9 +101,20 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
     setValue("toDo", "");
   };
 
+  const deleteBoard = () => {
+    setToDos((current) => {
+      let copyBoard = { ...current };
+      delete copyBoard[boardId];
+      return copyBoard;
+    });
+  };
+
   return (
-    <Wrapper>
-      <Title>{boardId}</Title>
+    <Wrapper boardId={boardId}>
+      <Header>
+        <Title>{boardId}</Title>
+        <Button onClick={deleteBoard}>X</Button>
+      </Header>
       <Form onSubmit={handleSubmit(onValid)}>
         <input
           {...register("toDo", { required: true })}
