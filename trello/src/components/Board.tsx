@@ -6,8 +6,16 @@ import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
-const Wrapper = styled.div<IWrapper>`
+const Wrapper = styled(motion.div)<IWrapper>`
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 12px;
   width: 303px;
@@ -121,6 +129,18 @@ const SubmitButton = styled.button.attrs({ type: "submit" })`
   color: ${(props) => props.theme.accentColor};
 `;
 
+const boxVariants = {
+  initial: {
+    opacity: 0,
+    scale: 0,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.3 },
+  },
+};
+
 interface IBoardProps {
   toDos: ITodo[];
   boardId: string;
@@ -162,7 +182,13 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
   };
 
   return (
-    <Wrapper boardId={boardId}>
+    <Wrapper
+      variants={boxVariants}
+      initial="initial"
+      animate="visible"
+      exit="leaving"
+      boardId={boardId}
+    >
       <Header>
         <Title>{boardId === "TrashLILI" ? "" : boardId}</Title>
         <Button onClick={deleteBoard}>X</Button>
