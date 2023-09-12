@@ -24,8 +24,8 @@ const Wrapper = styled(motion.div)<IWrapper>`
   padding: 23px 15px 15px 15px;
   display: flex;
   flex-direction: column;
-
   box-shadow: 0 5px 5px 3px rgba(0, 0, 0, 0.2);
+  transform-origin: top center;
 
   &:hover {
     width: ${(props) => props.boardId === "TrashLILI" && "200px"};
@@ -34,7 +34,6 @@ const Wrapper = styled(motion.div)<IWrapper>`
       font-size: 80px;
       color: #f0f08c;
     }
-    transition: all 0.5s ease-in-out;
   }
 
   Form {
