@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { IGetMoviesResult, getMovies } from "../api";
+import { IGetMoviesResult, getMovies, getPopularMovies, getTopRatedMovies } from "../api";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -28,7 +28,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
   padding: 40px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1)),
     url(${(props) => props.bgPhoto});
-  background-size: hover;
+  background-size: cover;
 `;
 
 const Title = styled.h2`
@@ -42,8 +42,11 @@ const Overview = styled.p`
 `;
 
 const Slider = styled.div`
+  margin-top: -100px;
+  margin-bottom: 100px;
   position: relative;
-  top: -100px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Row = styled(motion.div)`
@@ -52,6 +55,19 @@ const Row = styled(motion.div)`
   grid-template-columns: repeat(6, 1fr);
   gap: 5px;
   width: 100%;
+`;
+
+const SlideButton = styled(motion.div)`
+  z-index: 99;
+  background-color: black;
+  opacity: 0;
+  font-size: 24px;
+  font-weight: 700;
+  height: 200px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
@@ -125,13 +141,16 @@ const BigOverview = styled.p`
   padding: 10px;
   color: ${(props) => props.theme.white.lighter};
 `;
+
 // Variants
 const rowVariants = {
-  hidden: {
-    x: window.outerWidth + 5,
-  },
+  hidden: (custom: number) => ({
+    x: (window.outerWidth + 5) * custom,
+  }),
   visible: { x: 0 },
-  exit: { x: -window.outerWidth - 5 },
+  exit: (custom: number) => ({
+    x: (-window.outerWidth - 5) * custom,
+  }),
 };
 
 const boxVariants = {
@@ -154,8 +173,14 @@ const Home = () => {
   const navigate = useNavigate();
   const bigMovieMatch: PathMatch<string> | null = useMatch("/movies/:movieId");
   const { data, isLoading } = useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
+  const { data: popular, isLoading: popularLoading } = useQuery<IGetMoviesResult>(
+    ["movies", "popular"],
+    getPopularMovies
+  );
+
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
+  const [back, isBack] = useState(1);
   const increaseIndex = () => {
     if (data) {
       if (leaving) return;
@@ -164,6 +189,17 @@ const Home = () => {
       const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
+    isBack(1);
+  };
+  const decreaseIndex = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+    }
+    isBack(-1);
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const onBoxClicked = (movieId: number) => {
@@ -181,16 +217,17 @@ const Home = () => {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner
-            onClick={increaseIndex}
-            bgPhoto={makeImagePath(data?.results[0].poster_path || "")}
-          >
+          <Banner bgPhoto={makeImagePath(data?.results[0].poster_path || "")}>
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+            <AnimatePresence custom={back} initial={false} onExitComplete={toggleLeaving}>
+              <SlideButton onClick={decreaseIndex} whileHover={{ opacity: 0.6 }}>
+                {"<"}
+              </SlideButton>
               <Row
+                custom={back}
                 variants={rowVariants}
                 initial="hidden"
                 animate="visible"
@@ -218,7 +255,41 @@ const Home = () => {
                     </Box>
                   ))}
               </Row>
+              <SlideButton onClick={increaseIndex} whileHover={{ opacity: 0.6 }}>
+                {">"}
+              </SlideButton>
             </AnimatePresence>
+          </Slider>
+          <Slider>
+            <Row
+              custom={back}
+              variants={rowVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              key={index}
+              transition={{ type: "tween", duration: 1 }}
+            >
+              {popular?.results
+                .slice(1)
+                .slice(offset * index, offset * index + offset)
+                .map((movie) => (
+                  <Box
+                    layoutId={movie.id + ""}
+                    key={movie.id}
+                    onClick={() => onBoxClicked(movie.id)}
+                    variants={boxVariants}
+                    initial={"normal"}
+                    bgPhoto={makeImagePath(movie.backdrop_path, "w300" || "")}
+                    whileHover={"hover"}
+                    transition={{ type: "tween" }}
+                  >
+                    <Info variants={infoVariants}>
+                      <h4>{movie.title}</h4>
+                    </Info>
+                  </Box>
+                ))}
+            </Row>
           </Slider>
           <AnimatePresence>
             {bigMovieMatch ? (
