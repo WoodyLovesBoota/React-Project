@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { motion, useAnimation, useMotionValueEvent, useScroll } from "framer-motion";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
+// Styled Components
 const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
@@ -59,7 +61,7 @@ const Circle = styled(motion.span)`
   margin: 0 auto;
 `;
 
-const Search = styled.span`
+const Search = styled.form`
   color: white;
   svg {
     height: 25px;
@@ -85,6 +87,7 @@ const Input = styled(motion.input)`
   }
 `;
 
+// Variants
 const logoVariants = {
   normal: { fillOpacity: 1 },
   active: { fillOpacity: [1, 0, 1, 0, 1], transition: { repeat: Infinity } },
@@ -94,6 +97,10 @@ const navVariants = {
   top: { backgroundColor: "rgba(0,0,0,0)" },
   scroll: { backgroundColor: "rgba(0,0,0,1)" },
 };
+
+interface IForm {
+  keyword: string;
+}
 
 const Header = () => {
   const homeMatch = useMatch("/");
@@ -109,7 +116,11 @@ const Header = () => {
     if (scrollY.get() > 80) navAnimation.start("scroll");
     else navAnimation.start("top");
   });
-
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<IForm>();
+  const onValid = (data: IForm) => {
+    navigate(`/search?keyword=${data.keyword}`);
+  };
   return (
     <Nav
       variants={navVariants}
@@ -141,7 +152,7 @@ const Header = () => {
         </Items>
       </Col>
       <Col>
-        <Search onClick={toggleSearch}>
+        <Search onClick={toggleSearch} onSubmit={handleSubmit(onValid)}>
           <motion.svg
             transition={{ type: "linear" }}
             animate={{ x: searchOpen ? -280 : 0 }}
@@ -156,6 +167,7 @@ const Header = () => {
             />
           </motion.svg>
           <Input
+            {...register("keyword", { required: true, minLength: 2 })}
             transition={{ type: "linear" }}
             initial={{ scaleX: 0 }}
             animate={{ scaleX: searchOpen ? 1 : 0 }}
