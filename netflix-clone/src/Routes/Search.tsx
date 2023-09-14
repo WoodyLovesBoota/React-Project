@@ -19,6 +19,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   font-size: 48px;
+  color: white;
 `;
 
 const Row = styled.div`
@@ -29,7 +30,7 @@ const Row = styled.div`
 
 const Box = styled.div<{ bgPhoto: string }>`
   height: 200px;
-  background-color: tomato;
+  background-color: gray;
   background-image: url(${(props) => props.bgPhoto});
   background-position: center center;
   background-size: cover;
@@ -50,7 +51,7 @@ const Search = () => {
   );
 
   const [movieResult, tvResult] = [movie?.results, tv?.results];
-  console.log(tvResult);
+
   return (
     <Wrapper>
       <Container>

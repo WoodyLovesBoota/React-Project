@@ -9,6 +9,16 @@ interface IMovie {
   poster_path: string;
   title: string;
   overview: string;
+  release_date: string;
+  vote_average: number;
+  genre_ids: number[];
+}
+
+interface IPerson {
+  gender: number;
+  id: number;
+  know_for_department: string;
+  name: string;
 }
 
 interface ITv {
@@ -17,6 +27,13 @@ interface ITv {
   poster_path: string;
   name: string;
   overview: string;
+  release_date: string;
+  vote_average: number;
+  genre_ids: number[];
+}
+
+export interface IGenreResult {
+  [genres: string]: { id: number; name: string }[];
 }
 
 export interface IGetMoviesResult {
@@ -30,12 +47,28 @@ export interface IGetMoviesResult {
   results: IMovie[];
 }
 
+export interface IGetTvsResult {
+  dates: {
+    maximum: string;
+    minimum: string;
+  };
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: ITv[];
+}
+
 export interface IGetMoviesSearchResult {
   results: IMovie[];
 }
 
 export interface IGetTvsSearchResult {
   results: ITv[];
+}
+
+export interface ICreditResult {
+  cast: IPerson[];
+  crew: IPerson[];
 }
 
 export const getMovies = async () => {
@@ -50,6 +83,10 @@ export const getTopRatedMovies = async () => {
   return (await fetch(`${BASE_URL}/movie/top_rated?language=ko-KR&api_key=${API_KEY}`)).json();
 };
 
+export const getUpcomingMovies = async () => {
+  return (await fetch(`${BASE_URL}/movie/upcoming?language=ko-KR&api_key=${API_KEY}`)).json();
+};
+
 export const getSearchMovieResult = async (keyword: string | undefined) => {
   return await axios
     .get(`${BASE_URL}/search/movie?query=${keyword}&language=ko-KR&api_key=${API_KEY}`)
@@ -59,5 +96,21 @@ export const getSearchMovieResult = async (keyword: string | undefined) => {
 export const getSearchTvResult = async (keyword: string | undefined) => {
   return await axios
     .get(`${BASE_URL}/search/tv?query=${keyword}&language=ko-KR&api_key=${API_KEY}`)
+    .then((res) => res.data);
+};
+
+export const getCredit = async (id: number | undefined) => {
+  return await axios
+    .get(`${BASE_URL}/movie/${id}/credits?language=ko-KR&api_key=${API_KEY}`)
+    .then((res) => res.data);
+};
+
+export const getMovieGenre = async () => {
+  return await axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`).then((res) => res.data);
+};
+
+export const getTrendingTvs = async () => {
+  return await axios
+    .get(`${BASE_URL}/trending/tv/day?language=ko-KR&api_key=${API_KEY}`)
     .then((res) => res.data);
 };

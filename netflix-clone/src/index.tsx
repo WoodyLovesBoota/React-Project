@@ -63,7 +63,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color:black;
   line-height: 1.2;
-  color:${(props) => props.theme.white.darker}  
+  color:${(props) => props.theme.white.lighter}  
 }
 a {
   text-decoration:none;

@@ -17,6 +17,7 @@ const Nav = styled(motion.nav)`
   font-size: 16px;
   padding: 20px 40px;
   color: white;
+  z-index: 99;
 `;
 
 const Col = styled.div`
@@ -42,7 +43,7 @@ const Items = styled.ul`
 
 const Item = styled.li`
   margin-right: 20px;
-  color: ${(props) => props.theme.white.darker};
+  color: ${(props) => props.theme.white.lighter};
   display: flex;
   justify-content: center;
   flex-direction: column;
