@@ -3,7 +3,7 @@ import { IGetMoviesResult, IGetTvsResult } from "../api";
 import { makeImagePath } from "../utils";
 
 const Banner = styled.div<{ bgPhoto: string }>`
-  height: 110vh;
+  height: 62.5vw;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -11,7 +11,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)),
     url(${(props) => props.bgPhoto});
   background-size: cover;
-  padding-bottom: 150px;
+  padding-bottom: 250px;
 `;
 
 const Title = styled.h2`

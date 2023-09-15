@@ -99,14 +99,15 @@ const boxVariants = {
   normal: { scale: 1 },
   hover: {
     zIndex: 99,
-    scale: 1.5,
-    y: -70,
-    transition: { delay: 0.3, duration: 0.3, type: "tween" },
+    scale: 1.2,
+    y: -50,
+    borderRadius: 10,
+    transition: { duration: 0.7, type: "spring" },
   },
 };
 
 const infoVariants = {
-  hover: { opacity: 1, transition: { delay: 0.3, duration: 0.3, type: "tween" } },
+  hover: { opacity: 1, transition: { duration: 0.7, type: "spring" } },
 };
 
 const offset = 6;
@@ -143,7 +144,7 @@ const TvRow = ({ data, title }: { data: IGetTvsResult | undefined; title: string
   };
 
   const onBoxClicked = (tvId: number, title: string) => {
-    navigate(`/tvs/${title}/${tvId}`);
+    navigate(`${title}/${tvId}`);
   };
 
   return (

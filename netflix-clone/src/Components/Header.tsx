@@ -66,6 +66,7 @@ const Search = styled.form`
   color: white;
   svg {
     height: 25px;
+    cursor: pointer;
   }
   display: flex;
   align-items: center;
@@ -83,8 +84,12 @@ const Input = styled(motion.input)`
   border: none;
   color: white;
   font-size: 16px;
+
   &:focus {
     outline: none;
+  }
+  &::placeholder {
+    color: lightgray;
   }
 `;
 
@@ -173,6 +178,7 @@ const Header = () => {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: searchOpen ? 1 : 0 }}
             placeholder="Search for Movie or TV Show"
+            autoComplete="off"
           />
         </Search>
       </Col>

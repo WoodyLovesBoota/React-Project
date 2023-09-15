@@ -6,9 +6,10 @@ import {
   getMovieGenre,
   getMovies,
   IGetTvsResult,
-  getTopRatedMovies,
+  getTopRatedTvs,
   getTrendingTvs,
   getUpcomingMovies,
+  getPopularTvs,
 } from "../api";
 import TvRow from "../Components/TvRow";
 import MainTvPoster from "../Components/MainTvPoster";
@@ -41,6 +42,16 @@ const Tv = () => {
     getTrendingTvs
   );
 
+  const { data: topRatedTv, isLoading: topRatedTvLoading } = useQuery<IGetTvsResult>(
+    ["topTvs", "topRatedTv"],
+    getTopRatedTvs
+  );
+
+  const { data: popularTv, isLoading: popularTvLoading } = useQuery<IGetTvsResult>(
+    ["popTvs", "popularTv"],
+    getPopularTvs
+  );
+
   return (
     <Wrapper>
       {trendTvLoading ? (
@@ -50,6 +61,12 @@ const Tv = () => {
           <MainTvPoster data={trendTv} />
           <Slider>
             <TvRow data={trendTv} title="Trending" />
+          </Slider>
+          <Slider>
+            <TvRow data={topRatedTv} title="Top Rated" />
+          </Slider>
+          <Slider>
+            <TvRow data={popularTv} title="Popular" />
           </Slider>
         </>
       )}

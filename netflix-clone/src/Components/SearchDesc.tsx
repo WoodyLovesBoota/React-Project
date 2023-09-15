@@ -4,7 +4,7 @@ import {
   ICreditResult,
   IGetMoviesResult,
   getCredit,
-  getTvGenre,
+  getMovieGenre,
   IGetTvsResult,
 } from "../api";
 import { makeImagePath } from "../utils";
@@ -61,12 +61,12 @@ const BigTitle = styled.h2`
 const Rating = styled.p`
   color: ${(props) => props.theme.white.darker};
   margin-bottom: 20px;
+  padding-right: 40px;
 `;
 
 const Date = styled.p`
   padding-right: 40px;
   color: ${(props) => props.theme.white.darker};
-  padding-right: 40px;
 `;
 
 const BigOverview = styled.p`
@@ -91,6 +91,7 @@ const Overlay = styled(motion.div)`
   opacity: 0;
   z-index: 98;
 `;
+
 const StarRateWrap = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -102,43 +103,53 @@ const StarRateWrap = styled.div`
     margin-right: 3px;
   }
 `;
-const TvDesc = ({ data, title }: { data: IGetTvsResult | undefined; title: string }) => {
-  const navigate = useNavigate();
-  const bigTvMatch: PathMatch<string> | null = useMatch("tv/:title/:tvId");
 
-  const { data: tvGenre, isLoading: isLoadingGenreMovie } = useQuery<IGenreResult>(
-    ["genre", "tvGenre"],
-    getTvGenre
+const SearchDesc = ({
+  data,
+  title,
+  keyword,
+}: {
+  data: IGetMoviesResult | undefined;
+  title: string;
+  keyword: string | null;
+}) => {
+  const navigate = useNavigate();
+  const bigMovieMatch: PathMatch<string> | null = useMatch("/search/:type/:id");
+
+  const { data: movieGenre, isLoading: isLoadingGenreMovie } = useQuery<IGenreResult>(
+    ["genre", "moviegenre"],
+    getMovieGenre
   );
 
   const onOverlayClick = () => {
-    navigate("/tv");
+    navigate(`/search?keyword=${keyword}`);
   };
 
   const clickedMovie =
-    bigTvMatch?.params.tvId && data?.results.find((tv) => tv.id === Number(bigTvMatch.params.tvId));
+    bigMovieMatch?.params.id &&
+    data?.results.find((movie) => movie.id === Number(bigMovieMatch.params.id));
 
   return (
     <AnimatePresence>
-      {!isLoadingGenreMovie && bigTvMatch && bigTvMatch.params.title === title && (
+      {!isLoadingGenreMovie && bigMovieMatch && (
         <>
           <Overlay
             onClick={onOverlayClick}
             exit={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           ></Overlay>
-          <BigMovie layoutId={bigTvMatch.params.tvId + "" + title}>
+          <BigMovie layoutId={bigMovieMatch.params.id + "" + title}>
             {clickedMovie && (
               <>
                 <BigCover
                   style={{
-                    backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                    backgroundImage: `linear-gradient(to top, #000000, transparent), url(${makeImagePath(
                       clickedMovie.backdrop_path,
                       "w500"
                     )})`,
                   }}
                 />
-                <BigTitle>{clickedMovie.name}</BigTitle>
+                <BigTitle>{clickedMovie.title}</BigTitle>
                 <DescContainer>
                   <Column>
                     <BigOverview>
@@ -188,16 +199,17 @@ const TvDesc = ({ data, title }: { data: IGetTvsResult | undefined; title: strin
                         );
                       })}
                     </StarRateWrap>
-                    <Rating>평점: {Math.floor(clickedMovie.vote_average * 100) / 100}</Rating>
+
+                    <Rating>평점: {clickedMovie.vote_average}</Rating>
                     <Genre>
                       장르:
                       {clickedMovie.genre_ids.map((id) =>
-                        tvGenre?.genres.map((genre) =>
+                        movieGenre?.genres.map((genre) =>
                           genre.id === id ? <span> {genre.name} </span> : null
                         )
                       )}
                     </Genre>
-                    <Date>방영일: {clickedMovie.first_air_date}</Date>
+                    <Date>방영일: {clickedMovie.release_date}</Date>
                   </Column>
                 </DescContainer>
               </>
@@ -209,4 +221,4 @@ const TvDesc = ({ data, title }: { data: IGetTvsResult | undefined; title: strin
   );
 };
 
-export default TvDesc;
+export default SearchDesc;

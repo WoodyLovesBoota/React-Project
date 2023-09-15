@@ -9,8 +9,12 @@ const App = () => {
     <Router>
       <Header />
       <Routes>
-        <Route path="/tv" element={<Tv />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/tv" element={<Tv />}>
+          <Route path="/tv/:title/:id" element={<Tv />} />
+        </Route>
+        <Route path="/search" element={<Search />}>
+          <Route path="/search/:type/:id" element={<Search />} />
+        </Route>
         <Route path="/" element={<Home />}>
           <Route path="movies/:title/:id" element={<Home />} />
         </Route>

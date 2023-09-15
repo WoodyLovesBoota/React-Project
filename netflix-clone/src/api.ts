@@ -27,7 +27,7 @@ interface ITv {
   poster_path: string;
   name: string;
   overview: string;
-  release_date: string;
+  first_air_date: string;
   vote_average: number;
   genre_ids: number[];
 }
@@ -113,4 +113,20 @@ export const getTrendingTvs = async () => {
   return await axios
     .get(`${BASE_URL}/trending/tv/day?language=ko-KR&api_key=${API_KEY}`)
     .then((res) => res.data);
+};
+
+export const getTopRatedTvs = async () => {
+  return await axios
+    .get(`${BASE_URL}/tv/top_rated?language=ko-KR&api_key=${API_KEY}`)
+    .then((res) => res.data);
+};
+
+export const getPopularTvs = async () => {
+  return await axios
+    .get(`${BASE_URL}/tv/popular?language=ko-KR&api_key=${API_KEY}`)
+    .then((res) => res.data);
+};
+
+export const getTvGenre = async () => {
+  return await axios.get(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}`).then((res) => res.data);
 };
