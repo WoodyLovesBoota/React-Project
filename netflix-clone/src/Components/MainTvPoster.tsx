@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { IGetMoviesResult, IGetTvsResult } from "../api";
+import { IGetTvsResult } from "../api";
 import { makeImagePath } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 const Banner = styled.div<{ bgPhoto: string }>`
   height: 62.5vw;
@@ -24,12 +25,36 @@ const Overview = styled.p`
   font-size: 24px;
   width: 50%;
 `;
+const Button = styled.div`
+  width: 200px;
+  height: 70px;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  border-radius: 24px;
+  margin-top: 50px;
+  cursor: pointer;
+  font-weight: 500;
+`;
 
 const MainTvPoster = ({ data }: { data: IGetTvsResult | undefined }) => {
+  const navigate = useNavigate();
+  const onBoxClicked = (tvId: number | undefined, title: string | undefined) => {
+    navigate(`${title}/${tvId}`);
+  };
   return (
     <Banner bgPhoto={makeImagePath(data?.results[0].poster_path || "")}>
       <Title>{data?.results[0].name}</Title>
       <Overview>{data?.results[0].overview}</Overview>
+      <Button
+        onClick={() => {
+          onBoxClicked(data?.results[0].id, "Trending");
+        }}
+      >
+        자세히 보기
+      </Button>
     </Banner>
   );
 };
