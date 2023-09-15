@@ -14,7 +14,7 @@ interface IMovie {
   genre_ids: number[];
 }
 
-interface IPerson {
+export interface IPerson {
   gender: number;
   id: number;
   know_for_department: string;

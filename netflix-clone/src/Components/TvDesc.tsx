@@ -69,6 +69,14 @@ const Date = styled.p`
   padding-right: 40px;
 `;
 
+const Poster = styled.img`
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  width: 150px;
+  border-radius: 20px;
+`;
+
 const BigOverview = styled.p`
   padding: 0 40px;
   color: ${(props) => props.theme.white.lighter};
@@ -138,12 +146,14 @@ const TvDesc = ({ data, title }: { data: IGetTvsResult | undefined; title: strin
                     )})`,
                   }}
                 />
+                <Poster src={`${makeImagePath(clickedMovie.poster_path, "w200")}`} />
+
                 <BigTitle>{clickedMovie.name}</BigTitle>
                 <DescContainer>
                   <Column>
                     <BigOverview>
                       {clickedMovie.overview.length > 500
-                        ? clickedMovie.overview.slice(0, 500) + "..."
+                        ? clickedMovie.overview.slice(0, 400) + "..."
                         : clickedMovie.overview}
                     </BigOverview>
                   </Column>

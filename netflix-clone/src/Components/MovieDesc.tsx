@@ -42,6 +42,14 @@ const BigCover = styled.div`
   background-size: cover;
 `;
 
+const Poster = styled.img`
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  width: 150px;
+  border-radius: 20px;
+`;
+
 const BigTitle = styled.h2`
   color: ${(props) => props.theme.white.lighter};
   font-size: 36px;
@@ -112,10 +120,6 @@ const MovieDesc = ({ data, title }: { data: IGetMoviesResult | undefined; title:
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
     data?.results.find((movie) => movie.id === Number(bigMovieMatch.params.movieId));
-  console.log(bigMovieMatch);
-  // const { data: credit, isLoading } = useQuery<ICreditResult>(["member", "credit"], () =>
-  //   getCredit(Number(bigMovieMatch?.params.movieId))
-  // );
   return (
     <AnimatePresence>
       {!isLoadingGenreMovie && bigMovieMatch && bigMovieMatch.params.title === title && (
@@ -136,13 +140,13 @@ const MovieDesc = ({ data, title }: { data: IGetMoviesResult | undefined; title:
                     )})`,
                   }}
                 />
+                <Poster src={`${makeImagePath(clickedMovie.poster_path, "w200")}`} />
                 <BigTitle>{clickedMovie.title}</BigTitle>
                 <DescContainer>
                   <Column>
                     <BigOverview>
-                      {" "}
                       {clickedMovie.overview.length > 500
-                        ? clickedMovie.overview.slice(0, 500) + "..."
+                        ? clickedMovie.overview.slice(0, 400) + "..."
                         : clickedMovie.overview}
                     </BigOverview>
                   </Column>

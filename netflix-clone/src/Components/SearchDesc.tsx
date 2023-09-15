@@ -82,6 +82,14 @@ const Genre = styled.p`
   margin-bottom: 20px;
 `;
 
+const Poster = styled.img`
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  width: 150px;
+  border-radius: 20px;
+`;
+
 const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -149,12 +157,14 @@ const SearchDesc = ({
                     )})`,
                   }}
                 />
+                <Poster src={`${makeImagePath(clickedMovie.poster_path, "w200")}`} />
+
                 <BigTitle>{clickedMovie.title}</BigTitle>
                 <DescContainer>
                   <Column>
                     <BigOverview>
                       {clickedMovie.overview.length > 500
-                        ? clickedMovie.overview.slice(0, 500) + "..."
+                        ? clickedMovie.overview.slice(0, 400) + "..."
                         : clickedMovie.overview}
                     </BigOverview>
                   </Column>

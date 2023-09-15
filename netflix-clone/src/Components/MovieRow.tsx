@@ -101,7 +101,7 @@ const boxVariants = {
     scale: 1.2,
     y: -50,
     borderRadius: 10,
-    transition: { duration: 0.7, type: "spring" },
+    transition: { duration: 0.5, type: "spring" },
   },
 };
 
