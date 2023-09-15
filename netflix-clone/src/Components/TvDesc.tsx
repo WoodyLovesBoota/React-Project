@@ -1,115 +1,10 @@
 import styled from "styled-components";
-import {
-  IGenreResult,
-  ICreditResult,
-  IGetMoviesResult,
-  getCredit,
-  getTvGenre,
-  IGetTvsResult,
-} from "../api";
+import { IGenreResult, getTvGenre, IGetTvsResult } from "../api";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { PathMatch, useMatch, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { useRecoilValue } from "recoil";
-import { movieGenreState } from "../atom";
 
-const DescContainer = styled.div`
-  width: 100%;
-  display: flex;
-`;
-
-const Column = styled.div`
-  &:first-child {
-    width: 70%;
-  }
-  &:last-child {
-    width: 30%;
-  }
-`;
-
-const BigMovie = styled(motion.div)`
-  position: fixed;
-  width: 35vw;
-  height: 90vh;
-  top: 5vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  background-color: ${(props) => props.theme.black.darker};
-  overflow: hidden;
-  border-radius: 15px;
-  z-index: 100;
-`;
-
-const BigCover = styled.div`
-  width: 100%;
-  height: 21.6vw;
-  background-position: center center;
-  background-size: cover;
-`;
-
-const BigTitle = styled.h2`
-  color: ${(props) => props.theme.white.lighter};
-  font-size: 36px;
-  position: relative;
-  top: -70px;
-  padding-left: 40px;
-  font-weight: 400;
-`;
-
-const Rating = styled.p`
-  color: ${(props) => props.theme.white.darker};
-  margin-bottom: 20px;
-`;
-
-const Date = styled.p`
-  padding-right: 40px;
-  color: ${(props) => props.theme.white.darker};
-  padding-right: 40px;
-`;
-
-const Poster = styled.img`
-  position: absolute;
-  top: 100px;
-  left: 40px;
-  width: 150px;
-  border-radius: 20px;
-`;
-
-const BigOverview = styled.p`
-  padding: 0 40px;
-  color: ${(props) => props.theme.white.lighter};
-  line-height: 1.7;
-`;
-
-const Genre = styled.p`
-  width: 100%;
-  color: ${(props) => props.theme.white.darker};
-  padding-right: 40px;
-  margin-bottom: 20px;
-`;
-
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  z-index: 98;
-`;
-const StarRateWrap = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  span {
-    display: inline-block;
-    margin-right: 3px;
-  }
-`;
 const TvDesc = ({ data, title }: { data: IGetTvsResult | undefined; title: string }) => {
   const navigate = useNavigate();
   const bigTvMatch: PathMatch<string> | null = useMatch("tv/:title/:tvId");
@@ -220,3 +115,100 @@ const TvDesc = ({ data, title }: { data: IGetTvsResult | undefined; title: strin
 };
 
 export default TvDesc;
+
+const DescContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+const Column = styled.div`
+  &:first-child {
+    width: 70%;
+  }
+  &:last-child {
+    width: 30%;
+  }
+`;
+
+const BigMovie = styled(motion.div)`
+  position: fixed;
+  width: 35vw;
+  height: 90vh;
+  top: 5vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.black.darker};
+  overflow: hidden;
+  border-radius: 15px;
+  z-index: 100;
+`;
+
+const BigCover = styled.div`
+  width: 100%;
+  height: 21.6vw;
+  background-position: center center;
+  background-size: cover;
+`;
+
+const BigTitle = styled.h2`
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 36px;
+  position: relative;
+  top: -70px;
+  padding-left: 40px;
+  font-weight: 400;
+`;
+
+const Rating = styled.p`
+  color: ${(props) => props.theme.white.darker};
+  margin-bottom: 20px;
+`;
+
+const Date = styled.p`
+  padding-right: 40px;
+  color: ${(props) => props.theme.white.darker};
+  padding-right: 40px;
+`;
+
+const Poster = styled.img`
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  width: 150px;
+  border-radius: 20px;
+`;
+
+const BigOverview = styled.p`
+  padding: 0 40px;
+  color: ${(props) => props.theme.white.lighter};
+  line-height: 1.7;
+`;
+
+const Genre = styled.p`
+  width: 100%;
+  color: ${(props) => props.theme.white.darker};
+  padding-right: 40px;
+  margin-bottom: 20px;
+`;
+
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  z-index: 98;
+`;
+const StarRateWrap = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  span {
+    display: inline-block;
+    margin-right: 3px;
+  }
+`;

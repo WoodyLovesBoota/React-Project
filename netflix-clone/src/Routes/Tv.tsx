@@ -1,40 +1,8 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import {
-  IGenreResult,
-  IGetMoviesResult,
-  getMovieGenre,
-  getMovies,
-  IGetTvsResult,
-  getTopRatedTvs,
-  getTrendingTvs,
-  getUpcomingMovies,
-  getPopularTvs,
-} from "../api";
+import { IGetTvsResult, getTopRatedTvs, getTrendingTvs, getPopularTvs } from "../api";
 import TvRow from "../Components/TvRow";
 import MainTvPoster from "../Components/MainTvPoster";
-import MovieDesc from "../Components/MovieDesc";
-import { useRecoilState } from "recoil";
-import { movieGenreState } from "../atom";
-
-// Styled Components
-const Wrapper = styled.div`
-  background-color: black;
-  height: 150vh;
-  overflow-x: hidden;
-`;
-
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Slider = styled.div`
-  margin-top: -50px;
-  position: relative;
-`;
 
 const Tv = () => {
   const { data: trendTv, isLoading: trendTvLoading } = useQuery<IGetTvsResult>(
@@ -54,7 +22,7 @@ const Tv = () => {
 
   return (
     <Wrapper>
-      {trendTvLoading ? (
+      {trendTvLoading || topRatedTvLoading || popularTvLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
@@ -75,3 +43,22 @@ const Tv = () => {
 };
 
 export default Tv;
+
+// Styled Components
+const Wrapper = styled.div`
+  background-color: black;
+  height: 150vh;
+  overflow-x: hidden;
+`;
+
+const Loader = styled.div`
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Slider = styled.div`
+  margin-top: -50px;
+  position: relative;
+`;

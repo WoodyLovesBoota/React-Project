@@ -8,51 +8,6 @@ import SearchDesc from "../Components/SearchDesc";
 import SearchDescTv from "../Components/SearchDescTv";
 import { useState } from "react";
 
-const Wrapper = styled.div`
-  padding: 40px;
-`;
-
-const Container = styled.div`
-  margin-top: 100px;
-`;
-
-const Title = styled.h1`
-  font-size: 48px;
-  color: white;
-`;
-const Info = styled(motion.div)`
-  padding: 10px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1));
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  h4 {
-    text-align: center;
-    font-size: 16px;
-  }
-`;
-
-const Row = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
-`;
-
-const Box = styled(motion.div)<{ bgPhoto: string }>`
-  height: 200px;
-  background-color: gray;
-  background-image: url(${(props) => props.bgPhoto});
-  background-position: center center;
-  background-size: cover;
-  cursor: pointer;
-  position: relative;
-`;
-
-const infoVariants = {
-  hover: { opacity: 1, transition: { delay: 0.1, duration: 0.2, type: "tween" } },
-};
-
 const Search = () => {
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("keyword");
@@ -130,3 +85,48 @@ const Search = () => {
 };
 
 export default Search;
+
+const Wrapper = styled.div`
+  padding: 40px;
+`;
+
+const Container = styled.div`
+  margin-top: 100px;
+`;
+
+const Title = styled.h1`
+  font-size: 48px;
+  color: white;
+`;
+const Info = styled(motion.div)`
+  padding: 10px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1));
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  h4 {
+    text-align: center;
+    font-size: 16px;
+  }
+`;
+
+const Row = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+`;
+
+const Box = styled(motion.div)<{ bgPhoto: string }>`
+  height: 200px;
+  background-color: gray;
+  background-image: url(${(props) => props.bgPhoto});
+  background-position: center center;
+  background-size: cover;
+  cursor: pointer;
+  position: relative;
+`;
+
+const infoVariants = {
+  hover: { opacity: 1, transition: { delay: 0.1, duration: 0.2, type: "tween" } },
+};

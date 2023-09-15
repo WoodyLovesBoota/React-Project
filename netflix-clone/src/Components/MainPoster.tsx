@@ -1,7 +1,29 @@
 import styled from "styled-components";
-import { IGetMoviesResult, IGetTvsResult } from "../api";
+import { IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
 import { useNavigate } from "react-router-dom";
+
+const MainPoster = ({ data }: { data: IGetMoviesResult | undefined }) => {
+  const navigate = useNavigate();
+  const onBoxClicked = (movieId: number | undefined, title: string | undefined) => {
+    navigate(`${title}/${movieId}`);
+  };
+  return (
+    <Banner bgPhoto={makeImagePath(data?.results[0].poster_path || "")}>
+      <Title>{data?.results[0].title}</Title>
+      <Overview>{data?.results[0].overview}</Overview>
+      <Button
+        onClick={() => {
+          onBoxClicked(data?.results[0].id, "movies/Now%20Playing");
+        }}
+      >
+        자세히 보기
+      </Button>
+    </Banner>
+  );
+};
+
+export default MainPoster;
 
 const Banner = styled.div<{ bgPhoto: string }>`
   height: 62.5vw;
@@ -39,24 +61,3 @@ const Button = styled.div`
   cursor: pointer;
   font-weight: 500;
 `;
-const MainPoster = ({ data }: { data: IGetMoviesResult | undefined }) => {
-  const navigate = useNavigate();
-  const onBoxClicked = (movieId: number | undefined, title: string | undefined) => {
-    navigate(`${title}/${movieId}`);
-  };
-  return (
-    <Banner bgPhoto={makeImagePath(data?.results[0].poster_path || "")}>
-      <Title>{data?.results[0].title}</Title>
-      <Overview>{data?.results[0].overview}</Overview>
-      <Button
-        onClick={() => {
-          onBoxClicked(data?.results[0].id, "movies/Now%20Playing");
-        }}
-      >
-        자세히 보기
-      </Button>
-    </Banner>
-  );
-};
-
-export default MainPoster;

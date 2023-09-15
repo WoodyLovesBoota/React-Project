@@ -3,6 +3,28 @@ import { IGetTvsResult } from "../api";
 import { makeImagePath } from "../utils";
 import { useNavigate } from "react-router-dom";
 
+const MainTvPoster = ({ data }: { data: IGetTvsResult | undefined }) => {
+  const navigate = useNavigate();
+  const onBoxClicked = (tvId: number | undefined, title: string | undefined) => {
+    navigate(`${title}/${tvId}`);
+  };
+  return (
+    <Banner bgPhoto={makeImagePath(data?.results[0].poster_path || "")}>
+      <Title>{data?.results[0].name}</Title>
+      <Overview>{data?.results[0].overview}</Overview>
+      <Button
+        onClick={() => {
+          onBoxClicked(data?.results[0].id, "Trending");
+        }}
+      >
+        자세히 보기
+      </Button>
+    </Banner>
+  );
+};
+
+export default MainTvPoster;
+
 const Banner = styled.div<{ bgPhoto: string }>`
   height: 62.5vw;
   display: flex;
@@ -38,25 +60,3 @@ const Button = styled.div`
   cursor: pointer;
   font-weight: 500;
 `;
-
-const MainTvPoster = ({ data }: { data: IGetTvsResult | undefined }) => {
-  const navigate = useNavigate();
-  const onBoxClicked = (tvId: number | undefined, title: string | undefined) => {
-    navigate(`${title}/${tvId}`);
-  };
-  return (
-    <Banner bgPhoto={makeImagePath(data?.results[0].poster_path || "")}>
-      <Title>{data?.results[0].name}</Title>
-      <Overview>{data?.results[0].overview}</Overview>
-      <Button
-        onClick={() => {
-          onBoxClicked(data?.results[0].id, "Trending");
-        }}
-      >
-        자세히 보기
-      </Button>
-    </Banner>
-  );
-};
-
-export default MainTvPoster;

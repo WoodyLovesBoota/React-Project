@@ -1,9 +1,7 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import {
-  IGenreResult,
   IGetMoviesResult,
-  getMovieGenre,
   getMovies,
   getPopularMovies,
   getTopRatedMovies,
@@ -12,28 +10,6 @@ import {
 } from "../api";
 import MovieRow from "../Components/MovieRow";
 import MainPoster from "../Components/MainPoster";
-import MovieDesc from "../Components/MovieDesc";
-import { useRecoilState } from "recoil";
-import { movieGenreState } from "../atom";
-
-// Styled Components
-const Wrapper = styled.div`
-  background-color: black;
-  height: 150vh;
-  overflow-x: hidden;
-`;
-
-const Loader = styled.div`
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Slider = styled.div`
-  margin-top: -50px;
-  position: relative;
-`;
 
 const Home = () => {
   const { data: nowPlaying, isLoading } = useQuery<IGetMoviesResult>(
@@ -87,3 +63,22 @@ const Home = () => {
 };
 
 export default Home;
+
+// Styled Components
+const Wrapper = styled.div`
+  background-color: black;
+  height: 150vh;
+  overflow-x: hidden;
+`;
+
+const Loader = styled.div`
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Slider = styled.div`
+  margin-top: -50px;
+  position: relative;
+`;
