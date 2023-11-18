@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const MainPoster = ({ data }: { data: IGetMoviesResult | undefined }) => {
   const navigate = useNavigate();
-  const onBoxClicked = (movieId: number | undefined, title: string | undefined) => {
+  const onBoxClicked = (
+    movieId: number | undefined,
+    title: string | undefined
+  ) => {
     navigate(`${title}/${movieId}`);
   };
   return (

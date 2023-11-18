@@ -22,7 +22,9 @@ function App() {
   const isFinished = useRecoilValue(isFinishState);
 
   const getWord = async () => {
-    const { data } = await axios("https://random-word-api.herokuapp.com/word?length=5");
+    const { data } = await axios(
+      "https://random-word-api.herokuapp.com/word?length=5"
+    );
     setAnswer(data[0]);
   };
 
@@ -40,7 +42,6 @@ function App() {
           return <Word key={element}></Word>;
         })}
         <Keyboard />
-        {isFinished}
       </Container>
       <ResultPage result={isFinished} />
     </>
